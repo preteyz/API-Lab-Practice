@@ -1,20 +1,50 @@
-const apiKey = "d2545d22-0ae5-4fd8-b805-8135912d09c0";
+async function choosePokemon(e) {
+    e.preventDefault();
+      
+    const userInput = e.target.id;
+    
+    const url = `https://pokeapi.co/api/v2/pokemon/${userInput}`;
+    
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
 
 
-async function getMovieData(e) {
-      e.preventDefault();
-  
-      const userInput = $('input[type="text"]').val();
-      const apiKey = "ffee1909";
-      const url = `http://www.omdbapi.com/?i=tt3896198&apikey=${apiKey}&t=${userInput}`;
-  
-      const response = await fetch(url);
-      const data = await response.json();
-  
-      $("#title").html(data.Title);
-      $("#year").html(data.Year);
-      $("#rated").html(data.Rated);
-  }
-  
-  $("form").on("submit", getMovieData);
-  
+    $('#name').html(data.name);
+    $('#type').html(data.types[0].type['name']);
+    $('#height').html(data.height + " ft");
+    $('#weight').html(data.weight + " lbs");
+    $('#sprite').attr('src',data.sprites.front_default);
+
+
+
+
+    
+}
+console.log("userInput");
+
+$("#bulbasaur").on("click", choosePokemon);
+$("#charmander").on("click", choosePokemon);
+$("#squirtle").on("click", choosePokemon);
+
+
+
+
+async function getPokeForm(e) {
+    e.preventDefault();
+
+    let input = $("#input").val();
+    console.log(input);
+    
+    const url = `https://pokeapi.co/api/v2/pokemon/${input}`;
+    
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+
+    
+}
+
+
+$('#button').on("click", getPokeForm);
+
