@@ -1,3 +1,5 @@
+let moves = [];
+
 async function choosePokemon(e) {
     e.preventDefault();
       
@@ -12,39 +14,38 @@ async function choosePokemon(e) {
 
     $('#name').html(data.name);
     $('#type').html(data.types[0].type['name']);
-    $('#height').html(data.height + " ft");
+    $('#hp').html(data.stats[0].base_stat);
     $('#weight').html(data.weight + " lbs");
     $('#sprite').attr('src',data.sprites.front_default);
 
-
-
-
     
 }
-console.log("userInput");
 
 $("#bulbasaur").on("click", choosePokemon);
 $("#charmander").on("click", choosePokemon);
 $("#squirtle").on("click", choosePokemon);
 
 
-
-
-async function getPokeForm(e) {
-    e.preventDefault();
-
-    let input = $("#input").val();
-    console.log(input);
-    
-    const url = `https://pokeapi.co/api/v2/pokemon/${input}`;
-    
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log(data);
-
-    
+function getRandom(max) {
+    return Math.floor(Math.random() * max);
 }
 
 
-$('#button').on("click", getPokeForm);
+async function getMove(e) {
+    e.preventDefault();
+
+    const userInput = $('#input').val();
+    const url = `https://pokeapi.co/api/v2/pokemon/${userInput}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const move = data.moves[getRandom(data.moves.length)].move.name;
+    console.log(move)
+
+    $('#move').html(move);
+
+}
+
+
+$('#button').on("click", getMove);
 
